@@ -1,19 +1,18 @@
-import React, { useEffect } from 'react';
-import * as Yup from 'yup';
+import React, { useEffect, useState } from 'react';
+import { validation } from './validation/loginValidation'
 import { Formik, Field, Form } from 'formik';
 
-const validation = Yup.object().shape({
-    email: Yup.string().email('Email not valid').required('Email is required'),
-    password: Yup.string().required('Password is required')
-});
-
 const Login = ({ history }) => {
+    const [user, setUser] = useState(null);
     useEffect(() => {
-        const isUserExists = localStorage.getItem('USER');
-        if (isUserExists) {
-            history.push('/');
+        setUser(localStorage.getItem('USER'));
+
+        if (user) {
+            setTimeout(() => {
+                history.push('/');
+            }, 2000);
         }
-    }, []);
+    }, [user]);
 
     const handleSubmit = (values) => {
         localStorage.setItem('USER', JSON.stringify(values, null, 2));
@@ -22,6 +21,12 @@ const Login = ({ history }) => {
 
     return (
         <div className="container login-container">
+            {user && (
+                <div className="alert alert-danger" role="alert">
+                    You has been already logged in!
+                </div>
+            )}
+
             <div className="login-wrapper">
                 <h2>Login Page</h2>
                 <Formik
