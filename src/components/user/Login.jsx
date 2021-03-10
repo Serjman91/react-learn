@@ -1,32 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { validation } from './validation/loginValidation'
 import { Formik, Field, Form } from 'formik';
+import { setUser } from '../../actions/user';
 
 const Login = ({ history }) => {
-    const [user, setUser] = useState(null);
-    useEffect(() => {
-        setUser(localStorage.getItem('USER'));
+    const dispatch = useDispatch();
+    const userData = useSelector(({ user }) => user);
 
-        if (user) {
-            setTimeout(() => {
-                history.push('/');
-            }, 2000);
+    useEffect(() => {
+        if (userData.user.email) {
+            history.push('/')
         }
-    }, [user]);
+    }, [history, userData]);
 
     const handleSubmit = (values) => {
-        localStorage.setItem('USER', JSON.stringify(values, null, 2));
-        history.push('/');
+        dispatch(setUser(values));
     };
 
     return (
         <div className="container login-container">
-            {user && (
-                <div className="alert alert-danger" role="alert">
-                    You has been already logged in!
-                </div>
-            )}
-
             <div className="login-wrapper">
                 <h2>Login Page</h2>
                 <Formik

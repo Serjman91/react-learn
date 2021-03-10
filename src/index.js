@@ -5,12 +5,19 @@ import reportWebVitals from './reportWebVitals';
 import App from './App.jsx';
 import { BrowserRouter } from 'react-router-dom';
 import history from './history';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from './reducers/store';
 
 ReactDOM.render(
   <React.StrictMode>
-      <BrowserRouter history={history}>
-        <App />
-      </BrowserRouter>
+      <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+              <BrowserRouter history={history}>
+                  <App />
+              </BrowserRouter>
+          </PersistGate>
+      </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
