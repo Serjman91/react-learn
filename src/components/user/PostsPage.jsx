@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import PostItem from './PostItem';
 
 const PostsPage = () => {
-    console.log('RENDER');
     const [posts, setPosts] = useState([]);
     useEffect(async () => {
         await getPosts();
@@ -12,7 +12,11 @@ const PostsPage = () => {
             let url = 'https://swapi.dev/api/films/';
             let data = await fetch(url, { method: 'GET' });
             const { results } = await data.json();
-            setPosts(results);
+            const mappedResults = results.map((item, index) => ({
+                id: (index + 1),
+                ...item
+            }));
+            setPosts(mappedResults);
         } catch (e) {
             console.log(e)
         }
@@ -23,10 +27,14 @@ const PostsPage = () => {
             return 'Sorry, no posts :('
         }
 
-        return posts.map((post) => <div>
-            <h3>{post.title}</h3>
-            <p>{post.opening_crawl}</p>
-        </div>)
+        return posts.map(
+            (post) =>
+                <PostItem
+                    id={post.id}
+                    title={post.title}
+                    opening_crawl={post.opening_crawl}
+                />
+            )
     };
 
     return (
