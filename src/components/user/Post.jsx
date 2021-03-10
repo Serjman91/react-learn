@@ -1,9 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
+import {useSelector} from "react-redux";
 
-const Post = () => {
+const Post = ({ history }) => {
     let { id } = useParams();
     const [post, setPost] = useState({});
+
+    const userData = useSelector(({ user }) => user) || {};
+
+    useEffect(() => {
+        if (!(userData.user && userData.user.email)) {
+            history.push('/login')
+        }
+    }, [history, userData]);
 
     useEffect(async () => {
         await getPost();

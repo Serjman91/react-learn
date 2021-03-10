@@ -4,10 +4,10 @@ import { useSelector } from 'react-redux';
 
 const PostsPage = ({ history }) => {
     const [posts, setPosts] = useState([]);
-    const userData = useSelector(({ user }) => user);
+    const userData = useSelector(({ user }) => user) || {};
 
     useEffect(() => {
-        if (!userData.user.email) {
+        if (!(userData.user && userData.user.email)) {
             history.push('/login')
         }
     }, [history, userData]);
