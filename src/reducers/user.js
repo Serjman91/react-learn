@@ -14,7 +14,6 @@ const user = (state = initialState, action) => {
     if (action.type === 'SET_IS_ADMIN') {
         return {
             ...state,
-            user: state.user,
             isAdmin: action.isAdmin,
         }
     }

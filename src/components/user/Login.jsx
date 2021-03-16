@@ -20,6 +20,7 @@ const Login = ({ history }) => {
     }, [history, userData]);
 
     const handleSubmit = (values) => {
+        console.log('handleSubmit')
         dispatch(setUser(values));
         if (values.email === fakeAdmin.email) {
             dispatch(setIsAdmin(true));
@@ -42,7 +43,7 @@ const Login = ({ history }) => {
                           handleChange,
                           handleBlur,
                           isSubmitting,
-                      }) => (
+                      }) => { console.log('form render'); return (
                         <Form noValidate>
                             <div className="form-group">
                                 <label htmlFor="email">Email</label>
@@ -76,7 +77,7 @@ const Login = ({ history }) => {
                                 Login
                             </button>
                         </Form>
-                    )}
+                    )}}
                 </Formik>
             </div>
         </div>

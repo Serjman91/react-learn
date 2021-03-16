@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PostItem from './PostItem';
 import { useSelector } from 'react-redux';
 import CreatePostButton from "../admin/CreatePostButton";
@@ -14,27 +14,33 @@ const PostsPage = ({ history }) => {
         }
     }, [history, userData]);
 
-    useEffect(async () => {
-        await getPosts();
-    }, []);
-
-    const getPosts = async () => {
+    const getPosts = useCallback(async () => {
         try {
-            const posts = JSON.parse(localStorage.getItem('POSTS')) || [];
-            setPosts(posts);
+            if (localStorage.getItem("POSTS") === null) {
+                localStorage.setItem("POSTS", JSON.stringify([]));
+            } else {
+                const posts = JSON.parse(localStorage.getItem('POSTS')) || [];
+                setPosts(posts);
+            }
         } catch (e) {
             console.log(e)
         }
-    };
+    }, [JSON.stringify(posts)]);
+
+    useEffect(async () => {
+        await getPosts();
+    }, [getPosts]);
+
 
     const renderPosts = () => {
-        if (!posts.length) {
+        if (!posts || !posts.length) {
             return isUserAdmin ? <CreatePostButton /> : 'Sorry, no posts :('
         }
 
         return posts.map(
             (post) =>
                 <PostItem
+                    setPostsCallback={setPosts}
                     key={`${post.id}-${post.title}`}
                     id={post.id}
                     title={post.title}

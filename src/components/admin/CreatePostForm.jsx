@@ -1,13 +1,15 @@
 import React from 'react';
 import {Field, Form, Formik} from "formik";
-import {validation} from "../user/validation/loginValidation";
+import {validation} from "../user/validation/postValidation";
 
 const CreatePostForm = () => {
+
     const handleSubmit = (values, { resetForm }) => {
         const existedPosts = JSON.parse(localStorage.getItem('POSTS')) || [];
         if (!existedPosts.length) {
             values.id = 1;
             localStorage.setItem('POSTS', JSON.stringify([values]));
+            resetForm({ title: '', body: '' });
 
             return;
         }
