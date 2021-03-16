@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PostItem from './PostItem';
 import { useSelector } from 'react-redux';
+import CreatePostButton from "../admin/CreatePostButton";
 
 const PostsPage = ({ history }) => {
     const [posts, setPosts] = useState([]);
     const userData = useSelector(({ user }) => user) || {};
+    const isUserAdmin = useSelector(({ user }) => user.isAdmin) || {};
 
     useEffect(() => {
         if (!(userData.user && userData.user.email)) {
@@ -18,14 +20,8 @@ const PostsPage = ({ history }) => {
 
     const getPosts = async () => {
         try {
-            let url = 'https://swapi.dev/api/films/';
-            let data = await fetch(url, { method: 'GET' });
-            const { results } = await data.json();
-            const mappedResults = results.map((item, index) => ({
-                id: (index + 1),
-                ...item
-            }));
-            setPosts(mappedResults);
+            const posts = JSON.parse(localStorage.getItem('POSTS')) || [];
+            setPosts(posts);
         } catch (e) {
             console.log(e)
         }
@@ -33,7 +29,7 @@ const PostsPage = ({ history }) => {
 
     const renderPosts = () => {
         if (!posts.length) {
-            return 'Sorry, no posts :('
+            return isUserAdmin ? <CreatePostButton /> : 'Sorry, no posts :('
         }
 
         return posts.map(
@@ -42,7 +38,7 @@ const PostsPage = ({ history }) => {
                     key={`${post.id}-${post.title}`}
                     id={post.id}
                     title={post.title}
-                    opening_crawl={post.opening_crawl}
+                    body={post.body}
                 />
             )
     };

@@ -7,6 +7,7 @@ import Post from "./components/user/Post";
 import Login from "./components/user/Login";
 import Layout from "./components/shared/Layout";
 import Parent from "./components/user/Parent";
+import CreatePostForm from "./components/admin/CreatePostForm";
 
 const App = () => {
   return (
@@ -16,6 +17,10 @@ const App = () => {
           <Route path='/news/:id' component={Post}/>
           <Route path='/login' component={Login}/>
           <Route path='/parent' component={Parent}/>
+          <Route path='/create' component={CreatePostForm}/>
+          <Route path='*' render={(props) => (
+              <h1>Not Found</h1>
+          )}/>
         </Switch>
       </Layout>
   );

@@ -1,5 +1,6 @@
 const initialState = {
     user: null,
+    isAdmin: false,
 };
 
 const user = (state = initialState, action) => {
@@ -9,6 +10,15 @@ const user = (state = initialState, action) => {
             user: action.user,
         }
     }
+
+    if (action.type === 'SET_IS_ADMIN') {
+        return {
+            ...state,
+            user: state.user,
+            isAdmin: action.isAdmin,
+        }
+    }
+
 
     if (action.type === 'DELETE_USER') {
         return {

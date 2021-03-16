@@ -7,7 +7,6 @@ import { deleteUser } from '../../actions/user';
 
 const Header = () => {
     const userData = useSelector(({ user }) => user) || {};
-    console.log(userData)
     const dispatch = useDispatch();
 
     return (

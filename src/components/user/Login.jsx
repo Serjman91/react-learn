@@ -2,7 +2,12 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { validation } from './validation/loginValidation'
 import { Formik, Field, Form } from 'formik';
-import { setUser } from '../../actions/user';
+import { setUser, setIsAdmin } from '../../actions/user';
+
+const fakeAdmin = {
+    email: 'admin@admin.com',
+    role: 'ADMIN',
+};
 
 const Login = ({ history }) => {
     const dispatch = useDispatch();
@@ -16,6 +21,9 @@ const Login = ({ history }) => {
 
     const handleSubmit = (values) => {
         dispatch(setUser(values));
+        if (values.email === fakeAdmin.email) {
+            dispatch(setIsAdmin(true));
+        }
     };
 
     return (
