@@ -6,7 +6,8 @@ import CreatePostButton from "../admin/CreatePostButton";
 const PostsPage = ({ history }) => {
     const [posts, setPosts] = useState([]);
     const userData = useSelector(({ user }) => user) || {};
-    const isUserAdmin = useSelector(({ user }) => user.isAdmin) || {};
+    const isUserAdmin = useSelector(({ user }) => user.isAdmin);
+    console.log(isUserAdmin)
 
     useEffect(() => {
         if (!(userData.user && userData.user.email)) {

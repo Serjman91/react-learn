@@ -3,11 +3,16 @@ import { NavLink, Link } from 'react-router-dom';
 // static
 import logo from "../../static/images/logo.svg"
 import {useDispatch, useSelector} from "react-redux";
-import { deleteUser } from '../../actions/user';
+import {deleteUser, setIsAdmin} from '../../actions/user';
 
 const Header = () => {
     const userData = useSelector(({ user }) => user) || {};
     const dispatch = useDispatch();
+
+    const logoutUser = () => {
+        dispatch(setIsAdmin(false));
+        dispatch(deleteUser());
+    }
 
     return (
         <header className="header">
@@ -26,7 +31,7 @@ const Header = () => {
                             <span>Hi {userData.user && userData.user.email}!</span>
                         </li>
                         <li className="menu-item">
-                            <span onClick={() => dispatch(deleteUser())}>Logout</span>
+                            <span onClick={() => logoutUser()}>Logout</span>
                         </li>
                     </>
                 ) : (

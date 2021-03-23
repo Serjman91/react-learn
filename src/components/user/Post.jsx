@@ -6,7 +6,7 @@ import PostActivityButtons from "../admin/PostActivityButtons";
 const Post = ({ history }) => {
     let { id } = useParams();
     const [post, setPost] = useState({});
-    const isUserAdmin = useSelector(({ user }) => user.isAdmin) || {};
+    const isUserAdmin = useSelector(({ user }) => user.isAdmin);
     const userData = useSelector(({ user }) => user) || {};
 
     useEffect(() => {

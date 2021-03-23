@@ -1,13 +1,29 @@
 import React, {useEffect, useState} from 'react';
 import { useParams, useLocation } from "react-router-dom";
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import {Field, Form, Formik} from "formik";
+import Modal from 'react-modal';
 import {validation} from "../user/validation/postValidation";
+
+const customStyles = {
+    content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)',
+        background             : '#d0d0fa'
+    }
+};
+
+Modal.setAppElement('#root');
 
 const CreatePostForm = () => {
     let { id } = useParams();
     let { pathname } = useLocation();
     const [post, setPost] = useState({});
+    const [modalIsOpen,setIsOpen] = useState(false);
     const history = useHistory();
 
     const isEditPage = pathname.includes('edit');
@@ -56,7 +72,7 @@ const CreatePostForm = () => {
 
         if (isEditPage) {
             updatePost(existedPosts, values, setSubmitting);
-
+            openModal();
             return;
         }
 
@@ -64,7 +80,6 @@ const CreatePostForm = () => {
             values.id = 1;
             localStorage.setItem('POSTS', JSON.stringify([values]));
             resetForm({ title: '', body: '' });
-
             return;
         }
 
@@ -81,7 +96,17 @@ const CreatePostForm = () => {
         body: isEditPage ? post.body : '',
     };
 
+    const closeModal = () => {
+        setIsOpen(false);
+        history.push('/')
+    };
+
+    const openModal = () => {
+        setIsOpen(true);
+    };
+
     return (
+        <>
         <div className="container login-container">
             <div className="login-wrapper">
                 <h2>{isEditPage ? 'Edit Post' : 'Create Post'}</h2>
@@ -137,6 +162,17 @@ const CreatePostForm = () => {
                 </Formik>
             </div>
         </div>
+            <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                style={customStyles}
+                contentLabel="Example Modal"
+            >
+                <h2>Post successfully Updated</h2>
+                <button onClick={closeModal}>close</button>
+                <button onClick={closeModal}>Go to Main page</button>
+            </Modal>
+        </>
     );
 };
 

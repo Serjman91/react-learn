@@ -4,7 +4,7 @@ import {useSelector} from "react-redux";
 import PostActivityButtons from "../admin/PostActivityButtons";
 
 const PostItem = ({ id, title = '', body = '', setPostsCallback }) => {
-    const isUserAdmin = useSelector(({ user }) => user.isAdmin) || {};
+    const isUserAdmin = useSelector(({ user }) => user.isAdmin);
 
     return (
         <>
