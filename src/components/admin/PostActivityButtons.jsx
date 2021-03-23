@@ -17,7 +17,7 @@ const PostActivityButtons = ({ postId, setPostsCallback }) => {
 
     return (
         <div className="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-            <Link className="btn btn-primary" to={`/news/:${postId}/edit`}>Edit Post</Link>
+            <Link className="btn btn-primary" to={`/news/${postId}/edit`}>Edit Post</Link>
             <span onClick={() => removePost()} className="btn btn-danger">Remove Post</span>
         </div>
     );
