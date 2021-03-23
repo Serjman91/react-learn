@@ -5,9 +5,9 @@ import CreatePostButton from "../admin/CreatePostButton";
 
 const PostsPage = ({ history }) => {
     const [posts, setPosts] = useState([]);
+    const [isLoading, setLoading] = useState(true);
     const userData = useSelector(({ user }) => user) || {};
     const isUserAdmin = useSelector(({ user }) => user.isAdmin);
-    console.log(isUserAdmin)
 
     useEffect(() => {
         if (!(userData.user && userData.user.email)) {
@@ -25,6 +25,9 @@ const PostsPage = ({ history }) => {
             }
         } catch (e) {
             console.log(e)
+        } finally {
+            setTimeout(() => setLoading(false), 3000)
+            // setLoading(false);
         }
     }, [JSON.stringify(posts)]);
 
@@ -49,6 +52,10 @@ const PostsPage = ({ history }) => {
                 />
             )
     };
+
+    if (isLoading) {
+        return (<h2>LOADING</h2>)
+    }
 
     return (
         <div style={{ paddingBottom: '150px' }} className="container">
